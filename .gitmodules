@@ -1,3 +1,12 @@
 [submodule "history"]
 	path = history
 	url = https://github.com/browserstate/history.js.git
+[submodule "respond"]
+	path = respond
+	url = https://github.com/scottjehl/Respond.git
+[submodule "underscore"]
+	path = underscore
+	url = https://github.com/jashkenas/underscore.git
+[submodule "bootstrap"]
+	path = bootstrap
+	url = https://github.com/twbs/bootstrap.git
