@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<link rel="stylesheet" href="bootstrap/dist/css/bootstrap.min.css">
 	<style type="text/css">
-		#messageList {
+		/*#messageList {
 
 		}
 
@@ -15,7 +15,7 @@
 
 		.box p {
 
-		}
+		}*/
 	</style>
 	<title>History.js サンプル</title>
 
@@ -36,8 +36,58 @@
 	<script src="bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="history/scripts/bundled/html4+html5/jquery.history.js"></script>
 	<script type="text/javascript" charset="utf-8">
+		var MessageController = function() {
+			var count = 0;
+			var template = undefined;
+
+			var _init = function() {
+				template = _.template($("#message-template").text());
+			};
+
+			var _getMessage = function() {
+				var id = count % 2;
+				if (id == 0) {
+					_showMessage({
+						id: count,
+						name: "name",
+						message: "message"
+					});
+				} else {
+					_showMessage({
+						id: count,
+						name: "name2",
+						message: "message2"
+					});
+				}
+			};
+
+			var _showMessage = function(data) {
+				console.log(data);
+				++count;
+				
+				$("#messageList").append($(template(data)));
+				History.pushState(data, "タイトル"+count, "message"+id+".json");
+			};
+
+			var _showError = function(jqXHR, textStatus) {
+				console.log(jqXHR.status + ": " + textStatus);
+			};
+
+			return {
+				init: _init,
+				getMessage: _getMessage
+			};
+		}();
+
+		History.Adapter.bind(window,'statechange',function(){
+    		var State = History.getState();
+    		MessageController.getMessage(State.data);
+		});
+
 		$(function(){
 			console.log("start");
+			MessageController.init();
+			History.pushState({id: count, name: "name", message: "message"}, "タイトル", "message.json");
 		});
 	</script>
 </head>
